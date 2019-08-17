@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>用户列表</title>
+        <header th:replace="header::html"></header>
+    </head>
+    <body>
+        <div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a href="">演示</a>
+            <a>
+              <cite>导航元素</cite></a>
+          </span>
+          <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+            <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+        </div>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+
+                        <table id="demo" lay-filter="test"></table>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </body>
+    <script>
+        layui.use('table', function(){
+            var table = layui.table;
+            table.render({
+                elem: '#demo'
+                ,url: '/user/list' //数据接口
+                ,page: true //开启分页
+                ,response: {
+                    dataName: 'datas' //规定数据列表的字段名称，默认：data
+                }
+                ,cols: [
+                    [ //表头
+
+                        ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                        ,{field: 'username', title: '用户名', width:80}
+                        ,{field: 'nickname', title: '别名', width:80, sort: true}
+                        ,{field: 'phone', title: '电话', width:80}
+                        ,{field: 'telephone', title: '手机号码', width:80}
+                        ,{field: 'email', title: '电子邮件', width:80}
+                ]
+                ]
+
+
+            });
+
+
+        });
+    </script>
+
+</html>
