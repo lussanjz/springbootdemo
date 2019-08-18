@@ -3,9 +3,9 @@ spring:
     active: dev
 
   devtools:
-    restart:
-      #需要实时更新的目录
-      additional-paths: resources/**,static/**,templates/**
+      restart:
+        #需要实时更新的目录
+        additional-paths: resources/**,static/**,templates/**
 
   datasource:
     driver-class-name: com.mysql.jdbc.Driver

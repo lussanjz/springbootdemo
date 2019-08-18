@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.base.result.PageTableRequest;
 import com.example.base.result.Results;
 import com.example.demo.model.SysUser;
 import com.example.demo.service.UserService;
@@ -31,10 +32,14 @@ public class UserController {
 
     @GetMapping("/list")
     @ResponseBody
-    public Results<SysUser> user() {
-        ArrayList<SysUser> list = new ArrayList<SysUser>();
-        list.add(userService.getUser("admin"));
-        return Results.success("success",1000,list);
+    public Results<SysUser> getUsers(PageTableRequest request) {
+        request.countOffset();
+        return userService.getAllUsersByPage(request.getOffset(),request.getLimit());
+    }
+    @GetMapping(value = "/add")
+    public String addUser(Model model) {
+        model.addAttribute("sysUser",new SysUser());
+        return "user/user-add";
     }
 
 }
