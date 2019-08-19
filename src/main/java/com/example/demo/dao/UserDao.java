@@ -17,5 +17,9 @@ public interface UserDao {
     @Select("select count(*) from sys_user t")
     Long countAllUsers();
 
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    @Insert("insert into sys_user(username, password, nickname, headImgUrl, phone, telephone, email, birthday, sex, status, createTime, updateTime) values(#{username}, #{password}, #{nickname}, #{headImgUrl}, #{phone}, #{telephone}, #{email}, #{birthday}, #{sex}, #{status}, now(), now())")
+    int save(SysUser user);
+
 
 }

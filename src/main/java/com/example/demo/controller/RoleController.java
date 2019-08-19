@@ -25,4 +25,6 @@ public class RoleController {
         log.info("RoleController.getAll()");
         return roleService.getAllRoles();
     }
+
+
 }

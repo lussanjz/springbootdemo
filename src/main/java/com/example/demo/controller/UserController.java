@@ -2,18 +2,23 @@ package com.example.demo.controller;
 
 import com.example.base.result.PageTableRequest;
 import com.example.base.result.Results;
+import com.example.demo.dao.UserDao;
+import com.example.demo.dto.UserDto;
 import com.example.demo.model.SysUser;
 import com.example.demo.service.UserService;
+import com.example.demo.util.MD5;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @RequestMapping("user")
 @Controller
@@ -40,6 +45,20 @@ public class UserController {
     public String addUser(Model model) {
         model.addAttribute("sysUser",new SysUser());
         return "user/user-add";
+    }
+
+    @PostMapping("/add")
+    @ResponseBody
+    public Results<SysUser> saveUser(UserDto userDto, Integer roleId) {
+        userDto.setStatus(1);
+        userDto.setPassword(MD5.crypt(userDto.getPassword()));
+        return userService.save(userDto,roleId);
+    }
+    //自定义日期编辑器
+    String pattern = "yyyy-MM-dd";
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder, WebRequest webRequest) {
+        webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(pattern), true));
     }
 
 }
