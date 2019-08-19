@@ -40,4 +40,14 @@ public class UserServiceImpl implements UserService{
         }
         return Results.failure();
     }
+
+    @Override
+    public SysUser getUserByPhone(String telephone) {
+        return userDao.getAllUsersByPhone(telephone);
+    }
+
+    @Override
+    public SysUser getUserById(Long id) {
+        return userDao.getUserById(id);
+    }
 }

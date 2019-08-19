@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.base.result.PageTableRequest;
+import com.example.base.result.ResponseCode;
 import com.example.base.result.Results;
 import com.example.demo.dao.UserDao;
 import com.example.demo.dto.UserDto;
@@ -50,6 +51,12 @@ public class UserController {
     @PostMapping("/add")
     @ResponseBody
     public Results<SysUser> saveUser(UserDto userDto, Integer roleId) {
+        SysUser sysUser = null;//电话验证功能
+        sysUser = userService.getUserByPhone(userDto.getTelephone());
+        if(sysUser != null && !(sysUser.getId().equals(userDto.getId()))){
+            return Results.failure(ResponseCode.PHONE_REPEAT.getCode(),ResponseCode.PHONE_REPEAT.getMessage());
+
+        }
         userDto.setStatus(1);
         userDto.setPassword(MD5.crypt(userDto.getPassword()));
         return userService.save(userDto,roleId);
@@ -59,6 +66,12 @@ public class UserController {
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder, WebRequest webRequest) {
         webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(pattern), true));
+    }
+
+    @GetMapping(value = "/edit")
+    public String addUser(Model model, SysUser sysUser) {
+        model.addAttribute(userService.getUserById(sysUser.getId()));
+        return "user/user-edit";
     }
 
 }
