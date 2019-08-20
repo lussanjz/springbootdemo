@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>新增角色信息</title>
+    <header th:replace="header::html"></header>
+      <link rel="stylesheet" th:href="@{/ztree/zTreeStyle/zTreeStyle.css}" />
+      <link rel="stylesheet" th:href="@{/ztree/demo.css}" />
+  </head>
+  
+  <body>
+    <div class="x-body">
+        <form class="layui-form">
+
+          <div class="layui-form-item">
+              <label for="L_username" class="layui-form-label">
+                  <span class="x-red">*</span>角色名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_username" th:value="${sysRole.name}" name="name" lay-verify="required" autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>将会成为角色名
+              </div>
+          </div>
+            <div class="layui-form-item">
+                <label for="L_description" class="layui-form-label">
+                    <span class="x-red">*</span>描述
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="L_description" th:value="${sysRole.description}" name="description" lay-verify="pass" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    该角色的定位或权限范围
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="col-md-2 control-lable layui-form-label">权限</label>
+                <div class="col-md-10">
+                    <ul id="treeDemo" class="ztree"></ul>
+                </div>
+            </div>
+          <div class="layui-form-item">
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  增加
+              </button>
+          </div>
+      </form>
+    </div>
+    <script>
+
+      layui.use(['form','layer', 'laydate'], function(){
+          $ = layui.jquery;
+        var form = layui.form
+        ,layer = layui.layer
+        ,laydate = layui.laydate;
+          getAllRole(function(){
+              layui.form.render('radio')
+          });
+          //日期
+          laydate.render({
+              elem: '#L_birthday'
+              ,format: 'yyyy-MM-dd' //可任意组合
+          });
+      
+        //自定义验证规则
+        form.verify({
+          nikename: function(value){
+            if(value.length < 5){
+              return '昵称至少得5个字符啊';
+            }
+          }
+          ,telephone: [/(.+){6,12}$/, '电话号码必须6到12位']
+          ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+          ,repass: function(value){
+              if($('#L_pass').val()!=$('#L_repass').val()){
+                return '两次密码不一致';
+              }
+          }
+        });
+
+      //监听提交
+        form.on('submit(add)', function(data){
+            var rolelRadio = $("[name=roleId]:checked");
+            if(rolelRadio == undefined || rolelRadio.length <= 0){
+                layer.alert("请给该用户设置角色");
+                return false;
+            }
+            data.field.roleId = rolelRadio.val();
+            $.ajax({
+                url:"/user/add",
+                type:"POST",
+                data:data.field,
+                dataType:'json',
+                success:function(result){
+                    if(result.code == 500 || result.code == 5000100 || result.code == 5000101 || result.code == 5000102){
+                        layer.alert(result.msg);
+                    }else{
+                        layer.alert("设置成功", {icon: 6},function () {
+                            //关闭当前frame
+                            xadmin.close();
+                            // 可以对父窗口进行刷新
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+          return false;
+        });
+
+
+      });
+      function getAllRole(callback){
+          $.ajax({
+              url:"/role/all",
+              type:"GET",
+              dataType:'json',
+              success:function(result){
+                  var html = "";
+                  if(result.datas && result.datas.length > 0){
+                      for(i in result.datas ){
+                          html += '<input type="radio"  name="roleId" value="'+result.datas[i].id+'" title="'+result.datas[i].name+'" >' +
+                              '<div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon"></i><div>'+result.datas[i].name+'</div></div>';
+                      }
+                      $(".show-role-container").html(html);
+                      callback();
+                  }
+              }
+          });
+      }
+  </script>
+  </body>
+</html>

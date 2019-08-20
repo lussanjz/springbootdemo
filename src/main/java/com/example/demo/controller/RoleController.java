@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.base.result.PageTableRequest;
 import com.example.base.result.Results;
 import com.example.demo.model.SysRole;
 import com.example.demo.model.SysUser;
@@ -26,5 +27,19 @@ public class RoleController {
         return roleService.getAllRoles();
     }
 
+    @GetMapping("/list")
+    @ResponseBody
+    public Results list(PageTableRequest request) {
+        log.info("RoleController.list(): param( request= "+request+")");
+        request.countOffset();
+        return roleService.getAllRolesByPage(request.getOffset(),request.getLimit());
+    }
 
+    @GetMapping("/findRoleByFuzzyRoleName")
+    @ResponseBody
+    public Results<SysRole> findRoleByFuzzyRoleName(PageTableRequest request, String roleName) {
+        log.info("RoleController.findRoleByFuzzyRoleName(): param (request ="+request+" ,roleName = "+roleName+")");
+        request.countOffset();
+        return roleService.getRoleByFuzzyRoleNamePage(roleName,request.getOffset(),request.getLimit());
+    }
 }
