@@ -50,4 +50,35 @@ public class UserServiceImpl implements UserService{
     public SysUser getUserById(Long id) {
         return userDao.getUserById(id);
     }
+
+    @Override
+    public Results<SysUser> updateUser(UserDto userDto, Integer roleId) {
+        if(roleId != null) {
+            //sysuser update
+            userDao.updateUser(userDto);
+            //sysroleuser update,save
+            SysRoleUser sysRoleUser = new SysRoleUser();
+            sysRoleUser.setUserId(userDto.getId().intValue());
+            sysRoleUser.setRoleId(roleId);
+            if(roleUserDao.getSysRoleUserByUserId(userDto.getId().intValue()) != null) {
+                roleUserDao.updateSysRoleUser(sysRoleUser);
+            }else {
+                roleUserDao.save(sysRoleUser);
+            }
+            return Results.success();
+        }else {
+            return Results.failure();
+        }
+    }
+
+    @Override
+    public int deleteUser(Long id) {
+        roleUserDao.deleteRoleUserByUserId(id.intValue());
+        return userDao.deleteUser(id.intValue());
+         }
+
+    @Override
+    public Results<SysUser> getUserByFuzzyUsernamePage(String username, Integer startPosition, Integer limit) {
+        return Results.success(userDao.getUserByFuzzyUsername(username).intValue(), userDao.getUserByFuzzyUsernamePage(username, startPosition, limit));
+    }
 }

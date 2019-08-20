@@ -42,6 +42,7 @@ public class UserController {
         request.countOffset();
         return userService.getAllUsersByPage(request.getOffset(),request.getLimit());
     }
+
     @GetMapping(value = "/add")
     public String addUser(Model model) {
         model.addAttribute("sysUser",new SysUser());
@@ -72,6 +73,38 @@ public class UserController {
     public String addUser(Model model, SysUser sysUser) {
         model.addAttribute(userService.getUserById(sysUser.getId()));
         return "user/user-edit";
+    }
+
+    @PostMapping("/edit")
+    @ResponseBody
+    public Results<SysUser> updateUser(UserDto userDto, Integer roleId) {
+        SysUser sysUser = null;//电话验证功能
+        sysUser = userService.getUserByPhone(userDto.getTelephone());
+        if(sysUser != null && !(sysUser.getId().equals(userDto.getId()))){
+            return Results.failure(ResponseCode.PHONE_REPEAT.getCode(),ResponseCode.PHONE_REPEAT.getMessage());
+
+        }
+        return userService.updateUser(userDto,roleId);
+    }
+
+    @GetMapping(value = "/delete")
+    @ResponseBody
+    public Results deleteUser(UserDto userDto) {
+        int count = userService.deleteUser(userDto.getId());
+        if(count > 0) {
+            return Results.success();
+
+        }else {
+            return Results.failure();
+        }
+    }
+
+    @GetMapping("/findUserByFuzzyUsername")
+    @ResponseBody
+    public Results<SysUser> findUserByFuzzyUsername(PageTableRequest request, String username) {
+        log.info("UserController.findUserByFuzzyUsername(): param (request1 ="+request+" ,username = "+username+")");
+        request.countOffset();
+        return userService.getUserByFuzzyUsernamePage(username,request.getOffset(),request.getLimit());
     }
 
 }

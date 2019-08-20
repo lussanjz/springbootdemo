@@ -14,4 +14,10 @@ public interface UserService {
     SysUser getUserByPhone(String telephone);
 
     SysUser getUserById(Long id);
+
+    Results<SysUser> updateUser(UserDto userDto, Integer roleId);
+
+    int deleteUser(Long id);
+
+    Results<SysUser> getUserByFuzzyUsernamePage(String username, Integer startPosition, Integer limit);
 }

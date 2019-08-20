@@ -11,13 +11,14 @@ import org.springframework.stereotype.Service;
 public class RoleUserServiceImpl implements RoleUserService {
     @Autowired
     private RoleUserDao roleUserDao;
+
     @Override
     public Results getSysRoleUserByUserId(Integer userId) {
         SysRoleUser sysRoleUser = roleUserDao.getSysRoleUserByUserId(userId);
-        if(sysRoleUser != null){
+        if (sysRoleUser != null) {
             return Results.success(sysRoleUser);
-
+        } else {
+            return Results.success();
         }
-        return Results.success();
     }
 }

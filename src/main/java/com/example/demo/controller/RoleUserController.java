@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoleUserController {
     @Autowired
     private RoleUserService roleUserService;
-    @PostMapping("/getRoleUserById")
+    @PostMapping("/getRoleUserByUserId")
     public Results getRoleUserByUserId(Integer userId) {
-        log.info("RoleUserController.getRoleUserByUserId: param=" + userId);
+        log.info("getRoleUserByUserId（"+userId+"）");
         return roleUserService.getSysRoleUserByUserId(userId);
 
     }

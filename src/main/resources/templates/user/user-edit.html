@@ -54,7 +54,7 @@
             <div class="layui-form-item">
                 <label for="L_email" class="layui-form-label">生日</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="L_birthday"  th:value="${sysUser.birthday}" name='birthday' placeholder="yyyy-MM-dd" class="layui-input ">
+                    <input type="text" id="L_birthday"  th:value="${#dates.format(sysUser.birthday,'yyyy-MM-dd')}" name='birthday' placeholder="yyyy-MM-dd" class="layui-input ">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -73,8 +73,8 @@
           <div class="layui-form-item">
               <label for="L_email" class="layui-form-label">
               </label>
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
+              <button  class="layui-btn" lay-filter="edit" lay-submit="">
+                  保存
               </button>
           </div>
       </form>
@@ -107,7 +107,7 @@
         });
 
       //监听提交
-        form.on('submit(add)', function(data){
+        form.on('submit(edit)', function(data){
             var rolelRadio = $("[name=roleId]:checked");
             if(rolelRadio == undefined || rolelRadio.length <= 0){
                 layer.alert("请给该用户设置角色");
@@ -115,7 +115,7 @@
             }
             data.field.roleId = rolelRadio.val();
             $.ajax({
-                url:"/user/add",
+                url:"/user/edit",
                 type:"POST",
                 data:data.field,
                 dataType:'json',
@@ -162,8 +162,8 @@
               url:"/roleuser/getRoleUserByUserId",
               type:"POST",
               data:{
-                  "userId" : userId
-              }
+                  "userId":userId
+              },
               dataType:'json',
               success:function(result){
                   if(result.code == 200) {
@@ -174,9 +174,8 @@
                                   return false;
 
                               }
-                          })
+                          });
                       }
-
                       if(callback){
                           callback();
                       }
