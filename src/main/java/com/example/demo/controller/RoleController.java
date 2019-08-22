@@ -1,17 +1,19 @@
 package com.example.demo.controller;
 
 import com.example.base.result.PageTableRequest;
+import com.example.base.result.ResponseCode;
 import com.example.base.result.Results;
+import com.example.demo.dto.RoleDto;
+import com.example.demo.dto.UserDto;
 import com.example.demo.model.SysRole;
 import com.example.demo.model.SysUser;
 import com.example.demo.service.RoleService;
+import com.example.demo.util.MD5;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("role")
 @Controller
@@ -41,5 +43,17 @@ public class RoleController {
         log.info("RoleController.findRoleByFuzzyRoleName(): param (request ="+request+" ,roleName = "+roleName+")");
         request.countOffset();
         return roleService.getRoleByFuzzyRoleNamePage(roleName,request.getOffset(),request.getLimit());
+    }
+
+    @GetMapping(value = "/add")
+    public String addRole(Model model) {
+        model.addAttribute("sysRole",new SysRole());
+        return "role/role-add";
+    }
+
+    @PostMapping("/add")
+    @ResponseBody
+    public Results<SysRole> saveRole(@RequestBody RoleDto roleDto) {
+        return roleService.save(roleDto);
     }
 }

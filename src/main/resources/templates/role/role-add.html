@@ -83,6 +83,7 @@
 
       //监听提交
         form.on('submit(add)', function(data){
+            console.log(data);
             var rolelRadio = $("[name=roleId]:checked");
             if(rolelRadio == undefined || rolelRadio.length <= 0){
                 layer.alert("请给该用户设置角色");
@@ -90,7 +91,7 @@
             }
             data.field.roleId = rolelRadio.val();
             $.ajax({
-                url:"/user/add",
+                url:"/role/add",
                 type:"POST",
                 data:data.field,
                 dataType:'json',

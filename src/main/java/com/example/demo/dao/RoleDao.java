@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import com.example.demo.dto.RoleDto;
 import com.example.demo.model.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,4 +24,6 @@ public interface RoleDao {
 
     @Select("select count(*) from sys_role t where t.name like '%${roleName}%'")
     Long countRoleByFuzzyRoleName(@Param("roleName") String roleName);
+
+    int saveRole(SysRole role);
 }
