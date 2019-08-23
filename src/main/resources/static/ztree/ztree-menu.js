@@ -1,4 +1,4 @@
-//树形只包含菜单，不包含按钮
+	//树形只包含菜单，不包含按钮
 function onlyGetMenuTree() {
     var root = {
         id : 0,

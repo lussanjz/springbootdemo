@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import com.example.demo.dto.RoleDto;
 import com.example.demo.model.SysRole;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -26,4 +27,6 @@ public interface RoleDao {
     Long countRoleByFuzzyRoleName(@Param("roleName") String roleName);
 
     int saveRole(SysRole role);
+
+    int update(SysRole role);
 }

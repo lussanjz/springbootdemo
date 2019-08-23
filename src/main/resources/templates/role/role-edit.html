@@ -3,7 +3,7 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>新增角色信息</title>
+    <title>更新角色信息</title>
     <header th:replace="header::html"></header>
       <link rel="stylesheet" th:href="@{/ztree/zTreeStyle/zTreeStyle.css}" />
       <link rel="stylesheet" th:href="@{/ztree/demo.css}" />
@@ -44,7 +44,7 @@
             </div>
           <div class="layui-form-item">
               <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
+                  更新
               </button>
           </div>
       </form>
@@ -73,18 +73,18 @@
         });
 
       //监听提交
-          form.on('submit(add)', function(data){
+          form.on('submit(update)', function(data){
               console.log(data);
               var permissionIds = getCheckedMenuIds();
               data.field.permissionIds = permissionIds;
               $.ajax({
-                  url:"/role/add",
+                  url:"/role/edit",
                   type:"POST",
                   contentType: "application/json; charset=utf-8",
                   data:JSON.stringify(data.field),
                   dataType:'json',
                   success:function(result){
-                      layer.alert("添加成功", {icon: 6},function () {
+                      layer.alert("更新成功", {icon: 6},function () {
                           //关闭当前frame
                           xadmin.close();
                           // 可以对父窗口进行刷新
@@ -96,6 +96,7 @@
           });
       });
       $.fn.zTree.init($("#treeDemo"), getSettting(), getMenuTree());
+      initMenuDatas($("#role_id").val());
 
   </script>
   </body>

@@ -51,9 +51,22 @@ public class RoleController {
         return "role/role-add";
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add")
     @ResponseBody
-    public Results<SysRole> saveRole(@RequestBody RoleDto roleDto) {
+    public Results saveRole(@RequestBody RoleDto roleDto) {
         return roleService.save(roleDto);
+    }
+
+    @GetMapping(value = "/edit")
+    public String editRole(Model model,SysRole role) {
+        model.addAttribute("sysRole",roleService.getRoleById(role.getId()));
+        return "role/role-edit";
+    }
+
+    @PostMapping(value = "/edit")
+    @ResponseBody
+    public Results<SysRole> updateRole(@RequestBody RoleDto roleDto) {
+        int a = roleService.update(roleDto);
+        return Results.success();
     }
 }

@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.base.result.Results;
 import com.example.demo.dao.RoleDao;
+import com.example.demo.dao.RolePermissionDao;
 import com.example.demo.dto.RoleDto;
 import com.example.demo.model.SysRole;
 import com.example.demo.model.SysUser;
@@ -18,6 +19,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private RolePermissionDao rolePermissionDao;
 
     @Override
     public Results<SysRole> getAllRoles() {
@@ -46,6 +50,20 @@ public class RoleServiceImpl implements RoleService {
             rolePermissionDao.save(roleDto.getId(), permissionIds);
         }
         return Results.success();
+    }
+
+    @Override
+    public Results update(RoleDto roleDto) {
+        List<Long> permissionIds = roleDto.getPermissionIds();
+        //移除0，permissionId是从1开始
+        permissionIds.remove(0L);
+        //更新角色权限之前删除角色所有的权限
+        rolePermissionDao.deleteRolePermission(roleDto.getId());
+        //判断角色是否有赋予权限值，有就添加
+        if(!CollectionUtils.isEmpty(permissionIds)) {
+            rolePermissionDao.save(roleDto.getId(), permissionIds);
+        }
+        return roleDao.update(roleDto);
     }
 
 }
