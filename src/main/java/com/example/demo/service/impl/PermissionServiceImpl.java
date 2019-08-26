@@ -29,7 +29,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Results<SysPermission> listByRoleId(Integer roleId) {
-        List<SysPermission> datas = permissionDao.listByRoleId(roleId);
-        return Results.success(0,datas);
+        return Results.success(0, permissionDao.listByRoleId(roleId));
     }
+
 }

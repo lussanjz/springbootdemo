@@ -26,8 +26,10 @@ public class PermissionController {
         return permissionService.listAllPermission();
     }
 
+    @RequestMapping(value = "/listAllPermissionByRoleId", method = RequestMethod.GET)
+    @ResponseBody
     public Results<SysPermission> listAllPermissionByRoleId(RoleDto roleDto) {
-        log.info(getClass().getName() +":param =" +roleDto);
+        log.info(getClass().getName() + " : param =  " + roleDto);
         return permissionService.listByRoleId(roleDto.getId().intValue());
     }
 

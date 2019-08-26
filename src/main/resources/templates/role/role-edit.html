@@ -12,7 +12,7 @@
   <body>
     <div class="x-body">
         <form class="layui-form">
-
+            <input type="hidden" name="id" id="role_id" th:value="${sysRole.id}">
           <div class="layui-form-item">
               <label for="L_username" class="layui-form-label">
                   <span class="x-red">*</span>角色名
@@ -37,13 +37,13 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="col-md-2 control-lable layui-form-label">权限</label>
+                <label class="col-md-2 control-label layui-form-label">权限</label>
                 <div class="col-md-10">
                     <ul id="treeDemo" class="ztree"></ul>
                 </div>
             </div>
           <div class="layui-form-item">
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
+              <button  class="layui-btn" lay-filter="update" lay-submit="">
                   更新
               </button>
           </div>
@@ -96,6 +96,7 @@
           });
       });
       $.fn.zTree.init($("#treeDemo"), getSettting(), getMenuTree());
+
       initMenuDatas($("#role_id").val());
 
   </script>

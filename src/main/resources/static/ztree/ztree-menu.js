@@ -57,23 +57,22 @@ function getMenuTree() {
 	return root;
 }
 
-function initMenuDatas(roleId){
-    $.ajax({
-        type : 'get',
-        url : '/permission/listAllPermissionByRoleId?id=' + roleId,
-        success : function(ret) {
-            var data = ret.datas;
-            var length = data.length;
-            var ids = [];
-            for(var i=0; i<length; i++){
-                ids.push(data[i]['id']);
-            }
+	function initMenuDatas(roleId){
+		$.ajax({
+			type : 'get',
+			url : '/permission/listAllPermissionByRoleId?id=' + roleId,
+			success : function(ret) {
+				var data = ret.datas;
+				var length = data.length;
+				var ids = [];
+				for(var i=0; i<length; i++){
+					ids.push(data[i]['id']);
+				}
 
-            initMenuCheck(ids);
-        }
-    });
-}
-
+				initMenuCheck(ids);
+			}
+		});
+	}
 function initMenuCheck(ids) {
 	var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 	var length = ids.length;

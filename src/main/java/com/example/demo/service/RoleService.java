@@ -13,7 +13,7 @@ public interface RoleService {
 
     Results<SysRole> save(RoleDto roleDto);
 
-    Results update(RoleDto roleDto);
-
     SysRole getRoleById(Integer id);
+
+    Results update(RoleDto roleDto);
 }

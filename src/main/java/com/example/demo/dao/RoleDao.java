@@ -28,5 +28,9 @@ public interface RoleDao {
 
     int saveRole(SysRole role);
 
+    @Select("select * from sys_role t where t.id = #{id}")
+    SysRole getById(Integer id);
+
     int update(SysRole role);
+
 }

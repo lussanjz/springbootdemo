@@ -53,17 +53,30 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public SysRole getRoleById(Integer id) {
+        return roleDao.getById(id);
+    }
+
+    @Override
     public Results update(RoleDto roleDto) {
         List<Long> permissionIds = roleDto.getPermissionIds();
-        //移除0，permissionId是从1开始
         permissionIds.remove(0L);
-        //更新角色权限之前删除角色所有的权限
+        //1、更新角色权限之前要删除该角色之前的所有权限
         rolePermissionDao.deleteRolePermission(roleDto.getId());
-        //判断角色是否有赋予权限值，有就添加
-        if(!CollectionUtils.isEmpty(permissionIds)) {
+
+        //2、判断该角色是否有赋予权限值，有就添加"
+        if (!CollectionUtils.isEmpty(permissionIds)) {
             rolePermissionDao.save(roleDto.getId(), permissionIds);
         }
-        return roleDao.update(roleDto);
+
+        //3、更新角色表
+        int countData = roleDao.update(roleDto);
+
+        if(countData > 0){
+            return Results.success();
+        }else{
+            return Results.failure();
+        }
     }
 
 }
