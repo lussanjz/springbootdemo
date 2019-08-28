@@ -16,4 +16,6 @@ public interface RoleService {
     SysRole getRoleById(Integer id);
 
     Results update(RoleDto roleDto);
+
+    Results delete(Integer id);
 }

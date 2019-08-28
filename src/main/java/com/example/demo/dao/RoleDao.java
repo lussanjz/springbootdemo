@@ -2,10 +2,7 @@ package com.example.demo.dao;
 
 import com.example.demo.dto.RoleDto;
 import com.example.demo.model.SysRole;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -33,4 +30,6 @@ public interface RoleDao {
 
     int update(SysRole role);
 
+    @Delete("delete from sys_role where id = #{id}")
+    int delete(Integer id);
 }

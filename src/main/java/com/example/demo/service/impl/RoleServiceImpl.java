@@ -1,10 +1,13 @@
 package com.example.demo.service.impl;
 
+import com.example.base.result.ResponseCode;
 import com.example.base.result.Results;
 import com.example.demo.dao.RoleDao;
 import com.example.demo.dao.RolePermissionDao;
+import com.example.demo.dao.RoleUserDao;
 import com.example.demo.dto.RoleDto;
 import com.example.demo.model.SysRole;
+import com.example.demo.model.SysRoleUser;
 import com.example.demo.model.SysUser;
 import com.example.demo.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RolePermissionDao rolePermissionDao;
+
+    @Autowired
+    private RoleUserDao roleUserDao;
 
     @Override
     public Results<SysRole> getAllRoles() {
@@ -77,6 +83,16 @@ public class RoleServiceImpl implements RoleService {
         }else{
             return Results.failure();
         }
+    }
+
+    @Override
+    public Results delete(Integer id) {
+        List<SysRoleUser> datas = roleUserDao.listAllSysRoleUserByRoleId(id);
+        if(datas.size()<= 0) {
+            roleDao.delete(id);
+            return Results.success();
+        }
+        return Results.failure(ResponseCode.USERNAME_REPEAT.USER_ROLE_NO_CLEAR.getCode(), ResponseCode.USERNAME_REPEAT.USER_ROLE_NO_CLEAR.getMessage());
     }
 
 }

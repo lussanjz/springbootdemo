@@ -7,8 +7,13 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface RoleUserDao {
+    @Select("select * from sys_role_user t where t.roleId = #{roleId}")
+    List<SysRoleUser> listAllSysRoleUserByRoleId(Integer id);
+
     @Insert("insert into sys_role_user(userId, roleId) values(#{userId}, #{roleId})")
     void save(SysRoleUser sysRoleUser);
 
