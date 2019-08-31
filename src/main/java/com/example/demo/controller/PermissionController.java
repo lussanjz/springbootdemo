@@ -8,9 +8,8 @@ import com.example.demo.service.PermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("permission")
@@ -31,6 +30,24 @@ public class PermissionController {
     public Results<SysPermission> listAllPermissionByRoleId(RoleDto roleDto) {
         log.info(getClass().getName() + " : param =  " + roleDto);
         return permissionService.listByRoleId(roleDto.getId().intValue());
+    }
+
+    @GetMapping("/menuAll")
+    @ResponseBody
+    public Results getMenuAll() {
+        return permissionService.getMenuAll();
+    }
+
+    @RequestMapping(value="/add", method = RequestMethod.GET)
+    public String addPermission(Model model){
+        model.addAttribute("sysPermission",new SysPermission());
+        return "permission/permission-add";
+    }
+
+    @RequestMapping(value="/add", method = RequestMethod.POST)
+    @ResponseBody
+    public Results<SysPermission> savePermission(@RequestBody SysPermission permission){
+       return permissionService.save(permission);
     }
 
 }
