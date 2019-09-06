@@ -12,4 +12,8 @@ public interface PermissionService {
     Results<SysPermission> getMenuAll();
 
     Results<SysPermission> save(SysPermission sysPermission);
+
+    SysPermission getSysPermissionById(Integer id);
+
+    Results updateSysPermission(SysPermission sysPermission);
 }

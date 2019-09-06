@@ -42,4 +42,14 @@ public class PermissionServiceImpl implements PermissionService {
         return (permissionDao.save(sysPermission) > 0) ? Results.success() : Results.failure();
     }
 
+    @Override
+    public SysPermission getSysPermissionById(Integer id) {
+        return permissionDao.getSysPermissionById(id);
+    }
+
+    @Override
+    public Results updateSysPermission(SysPermission sysPermission) {
+        return (permissionDao.update(sysPermission) > 0) ? Results.success() :Results.failure();
+    }
+
 }

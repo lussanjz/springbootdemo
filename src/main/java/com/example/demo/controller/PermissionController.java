@@ -50,4 +50,16 @@ public class PermissionController {
        return permissionService.save(permission);
     }
 
+    @RequestMapping(value="/edit", method = RequestMethod.GET)
+    public String editPermission(Model model,SysPermission permission){
+        model.addAttribute("sysPermission",permissionService.getSysPermissionById(permission.getId()));
+        return "permission/permission-add";
+    }
+
+    @RequestMapping(value="/edit", method = RequestMethod.POST)
+    @ResponseBody
+    public Results<SysPermission> updatePermission(@RequestBody SysPermission permission){
+        return permissionService.updateSysPermission(permission);
+    }
+
 }

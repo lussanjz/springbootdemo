@@ -17,6 +17,8 @@
                 <i class="layui-icon" style="line-height:30px">ဂ</i></a>
         </div>
 
+<div class="x-body">
+
         <div class="layui-fluid">
             <div class="layui-row  layui-col-space15">
                 <div class="layui-col-md12">
@@ -43,7 +45,7 @@
                 </div>
             </div>
         </div>
-
+</div>
     <script>
         var treetable, renderTable;
 
@@ -60,26 +62,25 @@
                 treetable.render({
                     //渲染表格
                     treeColIndex: 1,//树形图标显示在第几列
-                    treesPid: 0,//最上级的父级id
-                    treeIdName: 'id',//id字段的名称
+                    treeSpid: 0,//最上级的父级id
+                    treeIdName:'id',//id字段的名称
                     treePidName:'parentId', //pid的名称
                     treeLinkage: true, //是否默认折叠
                     elem:'#menuTable',
                     url: '/permission/menuAll',
                     cols: [
-                    [ //表头
+                      [ //表头
                         {type: 'numbers'},
-                        {field: 'name', title: '名称', width:180},
-                        {field: 'href', title: 'url', width:160},
-                        {field: 'sort', title: '排序', width:60},
+                        {field: 'name',width:180, title: '名称'},
+                        {field: 'href',width:160, title: 'url'},
+                        {field: 'sort',width:60, title: '排序'},
                         {field: 'permission', title: '资源标识'},
-                        {field: 'type', title: '类型', width:60,templet:function (d) {
+                        {field: 'type',width:60,title: '类型', templet:function (d) {
                                 return d.type == '1' ? "菜单":"按钮";
                             }},
-                        {title:'操作', toolbar: '#barDemo' }
-                    ]
-                ],
-
+                        {title:'操作', toolbar:'#barDemo'}
+                      ]
+                   ]
                 });
             };
             renderTable();
@@ -91,10 +92,10 @@
         $("#crollAll").click(function () {
             if(croll){
                 treetable.expandAll('#menuTable');
-                croll = false;
+                croll=false;
             }else {
                 treetable.foldAll('#menuTable');
-                croll = true;
+                croll=true;
             }
         })
 
@@ -120,7 +121,7 @@
 
                     });
                 } else if(obj.event === 'edit'){
-                    xadmin.open('编辑用户信息','/permission/edit/?id='+data.id);
+                    xadmin.open('编辑用户信息', '/permission/edit/?id=' +data.id);
                 }
             })
 

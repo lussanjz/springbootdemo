@@ -21,4 +21,9 @@ public interface PermissionDao {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     @Insert("insert into sys_permission(parentId, name, css, href, type, permission, sort) value(#{parentId}, #{name}, #{css}, #{href}, #{type}, #{permission}, #{sort})")
     int save(SysPermission e);
+
+    @Select("select * from sys_permission t where t.id = #{id}")
+    SysPermission getSysPermissionById(Integer id);
+
+    int update(SysPermission e);
 }
