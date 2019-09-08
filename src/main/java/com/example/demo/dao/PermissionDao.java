@@ -2,10 +2,7 @@ package com.example.demo.dao;
 
 import com.example.base.result.Results;
 import com.example.demo.model.SysPermission;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -26,4 +23,10 @@ public interface PermissionDao {
     SysPermission getSysPermissionById(Integer id);
 
     int update(SysPermission e);
+
+    @Delete("delete from sys_permission where id = #{id}")
+    int deleteById(Integer id);
+
+    @Delete("delete from sys_permission where parentId = #{parentId}")
+    int deleteByParentId(Integer id);
 }

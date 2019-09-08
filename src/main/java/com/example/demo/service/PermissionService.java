@@ -16,4 +16,6 @@ public interface PermissionService {
     SysPermission getSysPermissionById(Integer id);
 
     Results updateSysPermission(SysPermission sysPermission);
+
+    Results delete(Integer id);
 }

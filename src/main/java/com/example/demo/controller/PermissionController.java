@@ -62,4 +62,11 @@ public class PermissionController {
         return permissionService.updateSysPermission(permission);
     }
 
+    @GetMapping(value = "/delete")
+    @ResponseBody
+    public Results deletePermission(SysPermission sysPermission) {
+        return permissionService.delete(sysPermission.getId());
+
+    }
+
 }

@@ -52,4 +52,11 @@ public class PermissionServiceImpl implements PermissionService {
         return (permissionDao.update(sysPermission) > 0) ? Results.success() :Results.failure();
     }
 
+    @Override
+    public Results delete(Integer id) {
+        permissionDao.deleteById(id);
+        permissionDao.deleteByParentId(id);
+        return Results.success();
+    }
+
 }
