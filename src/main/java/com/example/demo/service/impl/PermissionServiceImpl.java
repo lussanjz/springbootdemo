@@ -59,4 +59,13 @@ public class PermissionServiceImpl implements PermissionService {
         return Results.success();
     }
 
+    @Override
+    public Results getMenu(Long userId) {
+        List datas = permissionDao.listByUserId(userId);
+        JSONArray array = new JSONArray();
+        log.info(getClass().getName()+".setPermissiontree(?,?,?)");
+        TreeUtils.setPermissionsTree(0,datas,array);
+        return Results.success(array);
+    }
+
 }
