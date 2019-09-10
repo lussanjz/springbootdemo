@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 public class PermissionServiceImpl implements PermissionService {
@@ -61,9 +63,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Results getMenu(Long userId) {
-        List datas = permissionDao.listByUserId(userId);
+        List<SysPermission> datas = permissionDao.listByUserId(userId);
+        datas = datas.stream().filter(p -> p.getType().equals(1)).collect(Collectors.toList());
         JSONArray array = new JSONArray();
-        log.info(getClass().getName()+".setPermissiontree(?,?,?)");
         TreeUtils.setPermissionsTree(0,datas,array);
         return Results.success(array);
     }

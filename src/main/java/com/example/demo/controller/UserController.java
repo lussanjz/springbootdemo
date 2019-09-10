@@ -11,6 +11,7 @@ import com.example.demo.util.MD5;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +60,8 @@ public class UserController {
 
         }
         userDto.setStatus(1);
-        userDto.setPassword(MD5.crypt(userDto.getPassword()));
+        userDto.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+        //userDto.setPassword(MD5.crypt(userDto.getPassword()));
         return userService.save(userDto,roleId);
     }
     //自定义日期编辑器
