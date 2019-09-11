@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dao.PermissionDao;
 import com.example.demo.dto.LoginUser;
+import com.example.demo.model.SysPermission;
 import com.example.demo.model.SysUser;
 import com.example.demo.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -13,8 +14,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class UserDetailslServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserService userService;
 
@@ -31,7 +34,10 @@ public class UserDetailslServiceImpl implements UserDetailsService {
         }
         LoginUser loginUser = new LoginUser();
         BeanUtils.copyProperties(sysUser,loginUser);
+
+       // List<SysPermission> permissions = permissionDao.listByUserId(sysUser.getId());
         loginUser.setPermissions(permissionDao.listByUserId(sysUser.getId()));
+
         return loginUser;
     }
 }

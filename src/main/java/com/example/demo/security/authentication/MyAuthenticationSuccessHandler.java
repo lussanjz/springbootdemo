@@ -1,4 +1,4 @@
-package com.example.security.authentication;
+package com.example.demo.security.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

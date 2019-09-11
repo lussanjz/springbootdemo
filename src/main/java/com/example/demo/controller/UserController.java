@@ -11,6 +11,7 @@ import com.example.demo.util.MD5;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -45,6 +46,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/add")
+    @PreAuthorize("hasAuthority('sys:user:add')")
     public String addUser(Model model) {
         model.addAttribute("sysUser",new SysUser());
         return "user/user-add";

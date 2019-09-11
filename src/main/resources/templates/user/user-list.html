@@ -135,13 +135,11 @@
                             ,{field: 'birthday', title: '生日'}
                             ,{title:'操作', toolbar: '#barDemo' }
                         ]
-                    ],
-                    done:function(){
-                        checkPermission()
-                    }
+                    ]
                 });
                 return false;
             });
+            checkPermission();
 
         });
     </script>
