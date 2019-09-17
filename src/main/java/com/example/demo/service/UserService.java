@@ -20,4 +20,6 @@ public interface UserService {
     int deleteUser(Long id);
 
     Results<SysUser> getUserByFuzzyUsernamePage(String username, Integer startPosition, Integer limit);
+
+    Results<SysUser> changePassword(String username, String oldPassword, String newPassword);
 }
